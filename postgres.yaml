@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: postgres
+spec: 
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec: 
+      containers:
+      - name: postgres
+        image: postgres:9.4.5
+        env:
+        - name: POSTGRES_USER
+          value: drkiq
+        - name: POSTGRES_PASSWORD
+          value: yourpassword
+        ports:
+        - containerPort: 5432
+          name: postgres-port
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: drkiq-postgres	
+      volumes:
+      - name: drkiq-postgres
+        persistentVolumeClaim:
+          claimName: drkiq-postgres

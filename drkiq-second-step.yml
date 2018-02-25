@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: drkiq
+  labels:
+    app: drkiq
+spec: 
+  containers:
+  - name: drkiq
+    image: drkiq:v1
+    ports:
+    - containerPort: 8000
+      name: drkiq-port
+    volumeMounts:
+    - mountPath: /drkiq
+      name: drkiq-vol
+    envFrom:
+    - configMapRef:
+        name: drkiq-config
+    command:  ["/bin/sh"] 
+    args: ["-c", "rake db:reset ;rake db:migrate"]	
+  restartPolicy: Never
+  volumes:
+  - name: drkiq-vol
+    hostPath:
+      path: /c/Users/vip/drkiq
+      type: Directory

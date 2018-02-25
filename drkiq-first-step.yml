@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: drkiq
+  labels:
+    app: drkiq
+spec: 
+  containers:
+  - name: drkiq
+    image: rails:4
+    volumeMounts:
+    - mountPath: /usr/src/app
+      name: test-volume
+    workingDir: /usr/src/app
+    command: ["rails"]
+    args: ["new", "--skip-bundle", "drkiq"]
+  restartPolicy: Never
+  volumes:
+  - name: test-volume
+    hostPath:
+#change the path value below to match your environment and access permissions
+      path: /c/Users/vip/ 
+      type: DirectoryOrCreate

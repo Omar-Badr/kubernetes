@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sidekiq
+spec: 
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sidekiq
+    spec: 
+      containers:
+      - name: sidekiq
+        image: drkiq:v1
+        volumeMounts:
+        - mountPath: /drkiq
+          name: drkiq-vol
+        envFrom:
+        - configMapRef:
+            name: drkiq-config
+        command: ["bundle"]
+        args: ["exec", "sidekiq", "-C", "config/sidekiq.yml"]		
+      volumes:
+      - name: drkiq-vol
+        hostPath:
+          path: /c/Users/vip/drkiq
+          type: Directory
